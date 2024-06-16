@@ -1,6 +1,6 @@
 export const getData = async () => {
   const res = await fetch("https://v1.appbackend.io/v1/rows/fYhRkDmeo8iq", {
-    cache: "no-store",
+    next: { tags: ["collection"] },
   });
 
   if (!res.ok) {
@@ -20,14 +20,13 @@ export const postNewCard = async (newCard) => {
   });
 
   if (!res.ok) {
-    alert("Error adding new card!");
+    console.log(res);
+    toast.error("Terjadi kesalahan. Silakan Coba kembali");
     throw new Error("Failed to add data");
   }
 };
 
 export const deleteCard = async (cardId) => {
-  console.log(cardId)
-
   const res = await fetch(
     fetch("https://v1.appbackend.io/v1/rows/fYhRkDmeo8iq", {
       method: "DELETE",
@@ -37,9 +36,14 @@ export const deleteCard = async (cardId) => {
       body: JSON.stringify([cardId]),
     })
   );
+};
 
-  if (!res.ok) {
-    alert("Error deleting card!")
-    throw new Error("Failed to delete data");
-  }
+export const updateCard = async (data) => {
+  const res = await fetch("https://v1.appbackend.io/v1/rows/fYhRkDmeo8iq", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
 };

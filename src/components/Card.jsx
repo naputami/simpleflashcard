@@ -1,13 +1,16 @@
 "use client";
 import ReactCardFlip from "react-card-flip";
 import { useState } from "react";
-import Swal from "sweetalert2";
-import { deleteCard } from "@/service";
+import { updateCard } from "@/service";
+import { useCardContext } from "@/context/CardContext";
+import { clearServiceCache } from "@/action";
 import { useRouter } from "next/navigation";
 
-export const Card = ({ word, meaning, is_remembered, category, cardId }) => {
+export const Card = ({ data }) => {
   const [isFlipped, setIsFlipped] = useState(false);
 
+  const { setDeletedId, setIsRemembered, setUpdatedCard, updatedCard } =
+    useCardContext();
   const router = useRouter();
 
   const handleFlip = (e) => {
@@ -16,53 +19,67 @@ export const Card = ({ word, meaning, is_remembered, category, cardId }) => {
   };
 
   const handleRememberButton = () => {
-    Swal.fire({
-      text: "Kamu keren. Ayo kita belajar lebih banyak kata!🤩",
-      padding: "3em",
-      width: 500,
-      confirmButtonText: "OK",
+    setIsRemembered(true);
+    updateCard({
+      ...data,
+      is_remembered: true,
     });
+    clearServiceCache().then(() => {
+      router.push("/");
+    });
+    document.getElementById("remember-dialog").showModal();
   };
 
   const handleForgettenButton = () => {
-    Swal.fire({
-      text: "Nggak apa-apa. Ayo kita belajar lagi!💪",
-      padding: "3em",
-      width: 500,
-      confirmButtonText: "OK",
+    setIsRemembered(false);
+    updateCard({
+      ...data,
+      is_remembered: false,
     });
+    clearServiceCache().then(() => {
+      router.push("/");
+    });
+    document.getElementById("remember-dialog").showModal();
   };
 
-  const handleDeleteCard = () => {
-    deleteCard(cardId)
-    router.refresh();
+  const handleDeleteButtonClick = () => {
+    document.getElementById("delete-confirm").showModal();
+    setDeletedId(data._id);
+  };
 
-  }
-
+  const handleEditButtonClick = () => {
+    setUpdatedCard(data);
+    router.push("/editcard")
+  };
 
   return (
     <div className="w-fit">
       <ReactCardFlip isFlipped={isFlipped}>
         {/* front componen */}
-        <article className="card w-[300px] h-[200px] bg-base-100 shadow-xl flex flex-col items-center justify-center relative">
-          <div className="fixed top-1 left-2">
-            <button onClick={handleDeleteCard}>
-              <img src="/trash.svg" style={{ width: "35px" }} />
+        <article className="card w-[300px] h-[200px] bg-base-200 shadow-md flex flex-col items-center justify-center relative">
+          <div className="fixed top-3 left-3 flex gap-1">
+            <button onClick={handleDeleteButtonClick}>
+              <img src="/trash.svg" style={{ width: "30px" }} />
+            </button>
+            <button onClick={handleEditButtonClick}>
+              <img src="/pencil.svg" style={{ width: "30px" }} />
             </button>
           </div>
           <div className="mt-4">
-            <h2 className="font-semibold text-3xl text-center">{word}</h2>
+            <h2 className="font-semibold text-3xl text-center">{data.word}</h2>
             <div className="flex flex-col items-center gap-8 mt-3">
               <div className="flex gap-2">
-                <div className="badge badge-info gap-2 badge-outline">{category}</div>
+                <div className="badge badge-info gap-2 badge-outline">
+                  {data.category}
+                </div>
                 <div
                   className={
-                    is_remembered
+                    data.is_remembered
                       ? "badge badge-success gap-2 badge-outline"
                       : "badge badge-error gap-2 badge-outline"
                   }
                 >
-                  {is_remembered ? "sudah hafal" : "belum hafal"}
+                  {data.is_remembered ? "sudah hafal" : "belum hafal"}
                 </div>
               </div>
 
@@ -77,8 +94,8 @@ export const Card = ({ word, meaning, is_remembered, category, cardId }) => {
         </article>
 
         {/* back component */}
-        <article className="card w-[300px] h-[200px] bg-base-100 shadow-xl flex flex-col items-center justify-center relative">
-          <p className="text-base text-center p-2">{meaning}</p>
+        <article className="card w-[300px] h-[200px] bg-base-200 shadow-md flex flex-col items-center justify-center relative">
+          <p className="text-base text-center p-2">{data.meaning}</p>
           <div className="flex flex-col items-center gap-2 mt-2">
             <div className="flex gap-2">
               <button

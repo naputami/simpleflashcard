@@ -1,15 +1,20 @@
 "use client";
 import { PageTemplate } from "@/components/PageTemplate";
 import { useState } from "react";
-import { postNewCard } from "@/service";
+import { updateCard } from "@/service";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import { clearServiceCache } from "@/action";
+import { useCardContext } from "@/context/CardContext";
 
-export default function AddNewCard() {
-  const [word, setWord] = useState("");
-  const [meaning, setMeaning] = useState("");
-  const [category, setCategory] = useState("");
+export default function EditCard() {
+  const { updatedCard } = useCardContext();
+
+  console.log(updatedCard);
+
+  const [word, setWord] = useState(updatedCard.word);
+  const [meaning, setMeaning] = useState(updatedCard.meaning);
+  const [category, setCategory] = useState(updatedCard.category);
   const [error, setError] = useState({
     word: "",
     meaning: "",
@@ -46,13 +51,14 @@ export default function AddNewCard() {
       });
       return;
     }
-    const newCard = {
+    const data = {
+      ...updatedCard,
       word,
       meaning,
       category,
     };
-    postNewCard(newCard);
-    Swal.fire("Berhasil menambahkan flashcard!", "", "success");
+    updateCard(data);
+    Swal.fire("Berhasil mengedit flashcard!", "", "success");
     setWord("");
     setMeaning("");
     setCategory("");
@@ -65,7 +71,7 @@ export default function AddNewCard() {
     <PageTemplate>
       <section className="container mx-auto w-4/5 md:w-1/3 mt-16">
         <h2 className="text-center font-semibold text-xl mb-6">
-          Tambah Flash Card Baru{" "}
+          Edit Data Flashcard{" "}
         </h2>
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
           <label className="form-control w-full">
