@@ -109,7 +109,7 @@ export default function EditCard() {
     <PageTemplate>
       <section className="container mx-auto w-4/5 md:w-1/3 mt-16">
         <h2 className="text-center font-semibold text-xl mb-6">
-          Edit Data Flashcard{" "}
+          Edit Data Flashcard
         </h2>
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
           <TextInput

@@ -23,7 +23,7 @@ export default async function Page() {
           </section>
           <section className="p-2 border border-accent rounded-xl mt-4">
             <h2 className="font-semibold text-lg">
-              Cara menggunakan aplikasi ini:{" "}
+              Cara menggunakan aplikasi ini:
             </h2>
             <ul className="list-disc ml-6">
               <li>Klik tambah flash card, isi form-nya, dan submit</li>
