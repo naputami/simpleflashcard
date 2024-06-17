@@ -41,6 +41,7 @@ export default async function Page() {
           </section>
 
           <section className="grid grid-cols-1 sm:grid-cols-4 gap-4 sm:gap-5 mx-auto justify-items-center mt-16">
+            {data.length == 0 && <h2 className="font-semibold text-lg sm:text-2xl">Tidak ada data</h2>}
             {data.map((item) => (
               <Card
                 key={item._id}
