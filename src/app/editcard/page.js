@@ -6,11 +6,11 @@ import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import { clearServiceCache } from "@/action";
 import { useCardContext } from "@/context/CardContext";
+import { TextInput } from "@/components/TextInput";
+import { SelectCategoryInput } from "@/components/SelectCategoryInput";
 
 export default function EditCard() {
   const { updatedCard } = useCardContext();
-
-  console.log(updatedCard);
 
   const [word, setWord] = useState(updatedCard.word);
   const [meaning, setMeaning] = useState(updatedCard.meaning);
@@ -18,24 +18,54 @@ export default function EditCard() {
   const [error, setError] = useState({
     word: "",
     meaning: "",
+    category: "",
   });
 
   const router = useRouter();
 
   const handleWordChange = (e) => {
     setWord(e.target.value);
+    setError({
+      ...error,
+      word: "",
+    });
   };
 
   const handleMeaningChange = (e) => {
     setMeaning(e.target.value);
+    setError({
+      ...error,
+      meaning: "",
+    });
   };
 
   const handleCategoryChange = (e) => {
     setCategory(e.target.value);
+    setError({
+      ...error,
+      category: "",
+    });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (word.length == 0) {
+      setError({
+        ...error,
+        word: "Kolom kata harus diisi.",
+      });
+
+      return;
+    }
+
+    if (meaning.length == 0) {
+      setError({
+        ...error,
+        meaning: "Kolom makna kata harus diisi.",
+      });
+
+      return;
+    }
     if (word.length > 50) {
       setError({
         ...error,
@@ -48,6 +78,14 @@ export default function EditCard() {
       setError({
         ...error,
         meaning: "Makna kata tidak boleh lebih dari 100 karakter",
+      });
+      return;
+    }
+
+    if (category.length == 0) {
+      setError({
+        ...error,
+        category: "Kolom kategori harus diisi",
       });
       return;
     }
@@ -74,55 +112,32 @@ export default function EditCard() {
           Edit Data Flashcard{" "}
         </h2>
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-          <label className="form-control w-full">
-            <input
-              type="text"
-              placeholder="Masukkan kata"
-              className="input input-bordered input-primary w-full"
-              value={word}
-              onChange={handleWordChange}
-              required
-            />
-            {error.word && (
-              <div className="label">
-                <span className="label-text-alt text-error">{error.word}</span>
-              </div>
-            )}
-          </label>
-          <label className="form-control w-full">
-            <input
-              type="text"
-              placeholder="Masukkan makna kata"
-              className="input input-bordered input-primary w-full"
-              value={meaning}
-              onChange={handleMeaningChange}
-              required
-            />
-            {error.meaning && (
-              <div className="label">
-                <span className="label-text-alt text-error">
-                  {error.meaning}
-                </span>
-              </div>
-            )}
-          </label>
-
-          <select
-            className="select select-primary w-full"
+          <TextInput
+            value={word}
+            name="word"
+            placeholder="Masukkan kata"
+            handleChange={handleWordChange}
+            error={error}
+          />
+          <TextInput
+            value={meaning}
+            name="meaning"
+            placeholder="Masukkan makna kata"
+            handleChange={handleMeaningChange}
+            error={error}
+          />
+          <SelectCategoryInput
             value={category}
-            onChange={handleCategoryChange}
-            required
-          >
-            <option disabled value="">
-              Pilih kategori
-            </option>
-            <option value="noun">noun</option>
-            <option value="adjective">adjective</option>
-            <option value="adverb">adverb</option>
-            <option value="verb">verb</option>
-          </select>
+            error={error}
+            handleChange={handleCategoryChange}
+          />
+
           <div className="space-x-2">
-            <button className="btn" onClick={() => router.push("/")}>
+            <button
+              type="button"
+              className="btn"
+              onClick={() => router.push("/")}
+            >
               Kembali
             </button>
             <button type="submit" className="btn btn-primary">

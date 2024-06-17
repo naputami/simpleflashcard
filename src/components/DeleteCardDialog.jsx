@@ -15,7 +15,7 @@ export const DeleteCardDialog = () => {
     deleteCard(deletedId)
     Swal.fire("Berhasil menghapus flashcard!", "", "success");
     clearServiceCache().then(() => {
-      router.push("/")
+      router.refresh()
     })
   }
 

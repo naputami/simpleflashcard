@@ -25,7 +25,7 @@ export const Card = ({ data }) => {
       is_remembered: true,
     });
     clearServiceCache().then(() => {
-      router.push("/");
+      router.refresh();
     });
     document.getElementById("remember-dialog").showModal();
   };
@@ -37,7 +37,7 @@ export const Card = ({ data }) => {
       is_remembered: false,
     });
     clearServiceCache().then(() => {
-      router.push("/");
+      router.refresh();
     });
     document.getElementById("remember-dialog").showModal();
   };
@@ -59,10 +59,10 @@ export const Card = ({ data }) => {
         <article className="card w-[300px] h-[200px] bg-base-200 shadow-md flex flex-col items-center justify-center relative">
           <div className="fixed top-3 left-3 flex gap-1">
             <button onClick={handleDeleteButtonClick}>
-              <img src="/trash.svg" style={{ width: "30px" }} />
+              <img src="/trash.svg" style={{ width: "28px" }} />
             </button>
             <button onClick={handleEditButtonClick}>
-              <img src="/pencil.svg" style={{ width: "30px" }} />
+              <img src="/pencil.svg" style={{ width: "28px" }} />
             </button>
           </div>
           <div className="mt-4">
