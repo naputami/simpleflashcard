@@ -66,10 +66,10 @@ export default function EditCard() {
 
       return;
     }
-    if (word.length > 50) {
+    if (word.length > 30) {
       setError({
         ...error,
-        word: "Kata tidak boleh lebih dari 50 karakter",
+        word: "Kata tidak boleh lebih dari 30 karakter",
       });
       return;
     }

@@ -63,10 +63,10 @@ export default function AddNewCard() {
 
       return;
     }
-    if (word.length > 50) {
+    if (word.length > 30) {
       setError({
         ...error,
-        word: "Kata tidak boleh lebih dari 50 karakter",
+        word: "Kata tidak boleh lebih dari 30 karakter",
       });
       return;
     }
@@ -105,7 +105,7 @@ export default function AddNewCard() {
     <PageTemplate>
       <section className="container mx-auto w-4/5 md:w-1/3 mt-16">
         <h2 className="text-center font-semibold text-xl mb-6">
-          Tambah Flash Card Baru{" "}
+          Tambah Flash Card Baru
         </h2>
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
           <TextInput
