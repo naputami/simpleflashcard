@@ -8,9 +8,3 @@
 body {
     font-family: 'Plus Jakarta Sans', 'sans-serif';
 }
-
-@layer base {
-    input {
-        @apply px-2 py-2 text-base  rounded-lg border focus:outline focus:outline-2 focus:outline-offset-1 bg-[#ffffff] text-[#444444] focus:outline-[#aaaaaa] border-[#cccccc]
-    }
-}
