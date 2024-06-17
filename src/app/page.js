@@ -30,10 +30,10 @@ export default async function Page() {
               <li>Pilih kata yang ingin kamu pelajari</li>
               <li>
                 Coba tebak dulu makna dari kata tersebut sebelum kamu klik
-                "Tampilkan arti kata"
+                &quot;Tampilkan arti kata&quot;
               </li>
               <li>
-                Kalau benar, kamu bisa klik tombol "sudah hafal". Kalau salah
+                Kalau benar, kamu bisa klik tombol &quot;sudah hafal&quot;. Kalau salah
                 atau kamu tidak tahu sama sekali artinya bisa klik tombol belum
                 hafal.
               </li>
