@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import { clearServiceCache } from "@/action";
 import { useCardContext } from "@/context/CardContext";
 import { TextInput } from "@/components/TextInput";
+import { TextArea } from "@/components/TextArea";
 import { SelectCategoryInput } from "@/components/SelectCategoryInput";
 
 export default function EditCard() {
@@ -119,7 +120,7 @@ export default function EditCard() {
             handleChange={handleWordChange}
             error={error}
           />
-          <TextInput
+          <TextArea
             value={meaning}
             name="meaning"
             placeholder="Masukkan makna kata"
